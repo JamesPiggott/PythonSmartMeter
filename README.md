@@ -21,14 +21,14 @@ baudrate=B115200, databits=D8, stopbits=S1, parity=None
 ## Installation
 1. Copy SmartMeterScript.py to your /root folder.
 2. Make sure the P1-to-USB converter cable is plugged into your device.
-3. Start the script with typing into the command line 'python ./Copy SmartMeterScript.py'
-4. Read the UDP datagrams by typing into the command line 'python ./MeterDataReceived.py'
+3. Start the script with typing into the command line 'python ./Copy SmartMeterScript.py'.
+4. Read the UDP datagrams by typing into the command line 'python ./MeterDataReceived.py'.
 
-Optionally you can use the startup script as follows
-1. Place StartUpSmartScript.sh in the init.d folder by using 'cp StartUpSmartScript.s /etc/init.d/'
+Optionally you can use the startup script as follows.
+1. Place StartUpSmartScript.sh in the init.d folder by using 'cp StartUpSmartScript.s /etc/init.d/'.
 2. Use command sequence 'chmod 755 StartUpSmartScript.sh' to assign proper rights.
 3. Use 'chmod 755 SmartMeterScript.py' to ensure the script can be used if you have not done so already.
-4. Add a service when using dependency-based booting with command 'insserv StartUpSmartScript.sh'
+4. Add a service when using dependency-based booting with command 'insserv StartUpSmartScript.sh'.
 5. After reboot use '/etc/init.d/StartUpSmartScript.sh status' to check if the program has started.
 
 ## Manifest
