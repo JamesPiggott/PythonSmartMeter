@@ -15,6 +15,7 @@ The following smart meters have been tested.
 
 With alterations it can also work on the...
 - Landis + Gyr E350
+
 This has not yet been tested, but is supported in the code. The protocol is:
 baudrate=B115200, databits=D8, stopbits=S1, parity=None
 
