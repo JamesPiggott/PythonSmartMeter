@@ -25,6 +25,7 @@ baudrate=B115200, databits=D8, stopbits=S1, parity=None
 4. Read the UDP datagrams by typing into the command line 'python ./MeterDataReceived.py'.
 
 Optionally you can use the startup script as follows.
+
 1. Place StartUpSmartScript.sh in the init.d folder by using 'cp StartUpSmartScript.s /etc/init.d/'.
 2. Use command sequence 'chmod 755 StartUpSmartScript.sh' to assign proper rights.
 3. Use 'chmod 755 SmartMeterScript.py' to ensure the script can be used if you have not done so already.
