@@ -2,7 +2,7 @@
 # Script to read Smart meters, optionally the data can then be transmitted with a UDP client
 # James Piggott @ Universiteit Twente, Netherlands
 
-versie = "1.1"
+versie = "1.0"
 import sys
 import serial
 import socket
@@ -33,11 +33,15 @@ try:
 
     ## Check if messages are readible
     while True:
+        #print 'I am still checking'
+        
         p1_raw = ser.readline()
+        print p1_raw
         delta = time.time() - start
         if delta >= abort_after:
             break
         if '1-0:1.7.0' in p1_raw:
+            print 'Do I get here?'
             check = True
             break
 
