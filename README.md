@@ -1,5 +1,6 @@
 # Python Smart Meter
 Written by James Piggott @ The Universiteit van Twente for the E-Balance project.
+
 Last Updated July 2016
 
 ## Introduction
