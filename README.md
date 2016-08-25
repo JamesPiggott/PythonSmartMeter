@@ -1,7 +1,7 @@
 # Python Smart Meter
 Written by James Piggott @ The Universiteit van Twente for the E-Balance project.
 
-Last Updated July 2016
+Last Updated August 2016
 
 ## Introduction
 Welcome to my Python Smart Meter page. This program is a small data parser for smart electricity meters. It can read meter packets sent through a P1 to USB connection from any Linux enabled device.
