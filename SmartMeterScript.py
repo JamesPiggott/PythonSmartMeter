@@ -2,7 +2,7 @@
 # Script to read Smart meters, optionally the data can then be transmitted with a UDP client
 # James Piggott @ Universiteit Twente, Netherlands
 
-versie = "1.1"
+versie = "1.2"
 import sys
 import serial
 import socket
@@ -18,13 +18,15 @@ ser.baudrate = 9600
 ser.bytesize=serial.SEVENBITS
 ser.parity=serial.PARITY_EVEN
 ser.stopbits=serial.STOPBITS_ONE
+
 ser.xonxoff=0
 ser.rtscts=0
-ser.timeout=20
+ser.timeout=8
 ser.port="/dev/ttyUSB0"
 
 ## Open COM port
 try:
+    print ('Trying to open port')
     ser.open()
 
     abort_after = 20
@@ -36,6 +38,7 @@ try:
         p1_raw = ser.readline()
         delta = time.time() - start
         if delta >= abort_after:
+            print ('Moving to other protocol')
             break
         if '1-0:1.7.0' in p1_raw:
             check = True
@@ -46,7 +49,7 @@ try:
         ser.close()
         ser.baudrate = 115200
         ser.bytesize=serial.EIGHTBITS
-        ser.parity=serial.PARITY_EVEN
+        ser.parity=serial.PARITY_NONE
         ser.stopbits=serial.STOPBITS_ONE
         ser.open()
  
