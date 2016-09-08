@@ -19,7 +19,7 @@ ser.bytesize=serial.SEVENBITS
 ser.parity=serial.PARITY_EVEN
 ser.stopbits=serial.STOPBITS_ONE
 
-ser.xonxoff=0
+ser.xonxoff=1
 ser.rtscts=0
 ser.timeout=8
 ser.port="/dev/ttyUSB0"
@@ -51,6 +51,8 @@ try:
         ser.bytesize=serial.EIGHTBITS
         ser.parity=serial.PARITY_NONE
         ser.stopbits=serial.STOPBITS_ONE
+        ser.xonxoff=0
+        ser.rtscts=0
         ser.open()
  
 except:
