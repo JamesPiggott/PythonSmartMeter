@@ -14,49 +14,50 @@ print ("Press Control-C to stop")
 
 ## Set serial port configuration
 ser = serial.Serial()
-ser.baudrate = 9600
-ser.bytesize=serial.SEVENBITS
-ser.parity=serial.PARITY_EVEN
-ser.stopbits=serial.STOPBITS_ONE
-
-ser.xonxoff=1
-ser.rtscts=0
-ser.timeout=8
+opts = [(9600, serial.SEVENBITS, serial.PARITY_EVEN, serial.STOPBITS_ONE, 1, 0, 8), (115200, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE, 0, 0, 8)]
 ser.port="/dev/ttyUSB0"
 
 ## Open COM port
-try:
+def reconnect():
+    global ser
     print ('Trying to open port')
-    ser.open()
-
     abort_after = 20
-    start = time.time()
     check = False
+    while not check:
+        for opt in opts:
+            try:
+                print ("Probe", opt)
+                start = time.time()
+                try:
+                    ser.close()
+                except:
+                    pass
+                ser.baudrate, ser.bytesize, ser.parity, ser.stopbits, ser.xonxoff, ser.rtscts, ser.timeout = opt
+                ser.open()
+                ## Check if messages are readible
+                while True:
+                    p1_raw = ser.readline()
+                    delta = time.time() - start
+                    if '1-0:1.7.0' in p1_raw:
+                        check = True
+                        print ("OK, starting listen")
+                        break
+                    if delta >= abort_after:
+                        print ('Moving to other protocol')
+                        break
+                    time.sleep(0.05)
+                if check:
+                    break
+                else:
+                    try:
+                        ser.close()
+                    except:
+                        pass
+            except:
+                print ("Error with opening:  %s."  % ser.name)
+                time.sleep(10)
+reconnect()
 
-    ## Check if messages are readible
-    while True:
-        p1_raw = ser.readline()
-        delta = time.time() - start
-        if delta >= abort_after:
-            print ('Moving to other protocol')
-            break
-        if '1-0:1.7.0' in p1_raw:
-            check = True
-            break
-
-    ## Switch to alternative protocol if necessary
-    if check == False:
-        ser.close()
-        ser.baudrate = 115200
-        ser.bytesize=serial.EIGHTBITS
-        ser.parity=serial.PARITY_NONE
-        ser.stopbits=serial.STOPBITS_ONE
-        ser.xonxoff=0
-        ser.rtscts=0
-        ser.open()
- 
-except:
-    sys.exit ("Error with opening:  %s."  % ser.name)
 
 ## Read from the COM port
 while True:
@@ -64,12 +65,19 @@ while True:
 
     try:
         p1_raw = ser.readline()
-            
     except:
-        sys.exit ("Serial port %s could not be read. " % ser.name )
-    
-    p1_str=str(p1_raw)
-    p1_line=p1_str.strip()
+        print ("Serial port %s could not be read. " % ser.name)
+        time.sleep(20)
+        reconnect()
+        continue
+
+    try:
+        p1_str=str(p1_raw)
+        p1_line=p1_str.strip()
+    except:
+        print "Could not turn P1 line into string"
+        time.sleep(5)
+        continue
 
     print (p1_line)
 
